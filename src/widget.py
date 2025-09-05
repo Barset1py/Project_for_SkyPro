@@ -1,13 +1,13 @@
+from src import masks
+
 def mask_account(number: str) -> str:
     """Функия накладывает маску на номер карты или счета в зависимости от длины номера"""
-    separate_number = number.split()
-    result = ""
-    if len(separate_number[-1]) == 16:
-        number_card_mask = f"{separate_number[-1][:6]}{"*" * 6}{separate_number[-1][-4:]}"
-        result = separate_number[0] + " " + number_card_mask
-    elif len(separate_number[-1]) > 16:
-        number_account_mask = f"**{separate_number[-1][-4:]}"
-        result = separate_number[0] + " " + number_account_mask
+    result = None
+    separate_num = number.split(' ')[1]
+    if len(number) == 16:
+        result = masks.get_mask_card_number(separate_num)
+    else:
+        result = masks.get_mask_account(separate_num)
     return result
 
 
