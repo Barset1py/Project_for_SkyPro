@@ -8,7 +8,7 @@ print(f"Маска номера счета: {masks.get_mask_account(input_accoun
 
 print("Введите номер счета или карты")
 input_numbers_account = input("В формате <имя счета или карты> <номер карты или счета>: ")
-print(widget.mask_account(input_numbers_account))
+print(widget.mask_account_card(input_numbers_account))
 
 print("Введите дату")
 format_date = input("В формате <2025-01-01T00:00:00.000000>: ")
