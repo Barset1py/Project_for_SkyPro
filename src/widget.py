@@ -4,11 +4,11 @@ from src import masks
 def mask_account_card(number: str) -> str:
     """Функия накладывает маску на номер карты или счета в зависимости от длины номера"""
     result = None
-    separate_num = number.split(" ")[-1]
-    if len(separate_num) == 16:
-        result = masks.get_mask_card_number(separate_num)
+    separate_num = number.split()
+    if len(separate_num[-1]) == 16:
+        result = ' '.join(separate_num[:-1]) + " " + masks.get_mask_card_number(separate_num[-1])
     else:
-        result = masks.get_mask_account(separate_num)
+        result = ' '.join(separate_num[:-1]) + " " + masks.get_mask_account(separate_num[-1])
     return result
 
 
