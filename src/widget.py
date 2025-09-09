@@ -6,9 +6,9 @@ def mask_account_card(number: str) -> str:
     result = None
     separate_num = number.split()
     if len(separate_num[-1]) == 16:
-        result = ' '.join(separate_num[:-1]) + " " + masks.get_mask_card_number(separate_num[-1])
+        result = " ".join(separate_num[:-1]) + " " + masks.get_mask_card_number(separate_num[-1])
     else:
-        result = ' '.join(separate_num[:-1]) + " " + masks.get_mask_account(separate_num[-1])
+        result = " ".join(separate_num[:-1]) + " " + masks.get_mask_account(separate_num[-1])
     return result
 
 
