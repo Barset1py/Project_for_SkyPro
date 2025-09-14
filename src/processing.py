@@ -10,3 +10,9 @@ def filter_by_state(data: list[dict[str, str]], state: str='EXECUTED') -> list[d
 
 
 def sort_by_date(data: list[dict[str, str]], reverse_sorted: bool=False) -> list[dict[str, str]]:
+    '''Функция сортирует список по дате от большего к меньшему'''
+    return sorted(
+        data,
+        key=lambda x: widget.get_date(x['date']),  # Используем преобразованную дату
+        reverse=reverse_sorted
+    )
