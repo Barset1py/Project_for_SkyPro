@@ -5,8 +5,7 @@ def mask_account_card(input_numbers_account):
     """Функия накладывает маску на номер карты или счета в зависимости от длины номера"""
     result = None
     while not input_numbers_account:
-        print('Поле ввода пустое!')
-        print('Введите номер карты или счета.')
+        print('Поле ввода пустое!\nВведите номер карты или счета.')
         input_numbers_account = input("В формате <имя счета или карты> <номер карты или счета>: ")
     separate_num = input_numbers_account.split()
     if len(separate_num[-1]) == 16:
@@ -19,8 +18,7 @@ def mask_account_card(input_numbers_account):
 def get_date(format_date):
     """Функция переводит дату из одного формата в другой"""
     while not format_date:
-        print('Поле ввода пустое!')
-        print('Введите дату.')
+        print('Поле ввода пустое!\nВведите дату.')
         format_date = input("В формате <2025-01-01T00:00:00.000000>: ")
     separate_date = format_date.split("T")[0]
     year, month, day = separate_date.split("-")
