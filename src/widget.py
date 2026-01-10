@@ -17,8 +17,13 @@ def mask_account_card():
     return result
 
 
-def get_date(date: str) -> str:
+def get_date():
     """Функция переводит дату из одного формата в другой"""
-    separate_date = date.split("T")[0]
+    format_date = input("В формате <2025-01-01T00:00:00.000000>: ")
+    while not format_date:
+        print('Поле ввода пустое!')
+        format_date = input("В формате <2025-01-01T00:00:00.000000>: ")
+
+    separate_date = format_date.split("T")[0]
     year, month, day = separate_date.split("-")
     return f"{day}.{month}.{year}"
