@@ -1,7 +1,7 @@
 from src import masks
 
 
-def mask_account_card(input_numbers_account):
+def mask_account_card(input_numbers_account: str) -> str:
     """Функия накладывает маску на номер карты или счета в зависимости от длины номера"""
     result = None
     while not input_numbers_account:
@@ -15,7 +15,7 @@ def mask_account_card(input_numbers_account):
     return result
 
 
-def get_date(format_date):
+def get_date(format_date: str) -> str:
     """Функция переводит дату из одного формата в другой"""
     while not format_date:
         print('Поле ввода пустое!\nВведите дату.')
