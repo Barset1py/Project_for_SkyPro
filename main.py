@@ -10,5 +10,4 @@ print("Введите номер счета или карты")
 print(widget.mask_account_card())
 
 print("Введите дату")
-format_date = input("В формате <2025-01-01T00:00:00.000000>: ")
-print(widget.get_date(format_date))
+print(widget.get_date())
