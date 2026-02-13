@@ -13,37 +13,76 @@ def num_account():
     return "**1234"
 
 
-@pytest.fixture
-def input_data_for_test():
-    """Входные данные для тестирования функции `filter_by_state`,
-    содержит список словарей, с опциональным ключем `state`."""
-    return {
-        'my_list': [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
-         {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
-         {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-         {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}],
-
-        'list_empty_key': [{'id': 41428829, 'state': '', 'date': '2019-07-03T18:35:29.512364'},
-         {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
-         {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-         {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}],
-
-        'empty_list': []
-    }
-
+base_transactions = [
+    {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
+    {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
+    {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
+    {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}
+]
 
 @pytest.fixture
-def output_data_for_test():
-    """Ожидаемые результаты функций при тестировании."""
+def transactions_with_missing_state():
+    """Транзакции, где у одной записи нет ключа 'state'."""
+    return [
+        {'id': 1, 'amount': 100},  # нет 'state'
+        {'id': 2, 'state': 'EXECUTED', 'amount': 200},
+        {'id': 3, 'amount': 300},  # нет 'state'
+    ]
+
+@pytest.fixture
+def exec_only():
+    """Ожидаемый результат для state == 'EXECUTED' (из BASE_TRANSACTIONS)."""
+    return [
+        {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
+        {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}
+    ]
+
+
+@pytest.fixture
+def canceled_only():
+    """Ожидаемый результат для state == 'CANCELED' (из BASE_TRANSACTIONS)."""
+    return [
+        {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
+        {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}
+    ]
+
+
+@pytest.fixture(params=[
+    ("missing_state", "EXECUTED"),
+    ("executed", "EXECUTED"),
+    ("canceled", "CANCELED"),
+    ("empty_list", "EXECUTED")
+])
+def test_cases(request, exec_only, canceled_only):
+    """
+    Параметризованная фикстура: готовит входные данные и ожидаемый результат
+    для каждого сценария.
+    """
+    case_name, filter_state = request.param
+
+    if case_name == "missing_state":
+        input_data = [
+            {'id': 1, 'amount': 100},
+            {'id': 2, 'state': 'EXECUTED', 'amount': 200},
+            {'id': 3, 'amount': 300}
+        ]
+        expected = [{'id': 2, 'state': 'EXECUTED', 'amount': 200}]
+    elif case_name == "executed":
+        input_data = base_transactions
+        expected = exec_only
+    elif case_name == "canceled":
+        input_data = base_transactions
+        expected = canceled_only
+    elif case_name == "empty_list":
+        input_data = []
+        expected = []
+    else:
+        raise ValueError(f"Неизвестный кейс: {case_name}")
+
+
     return {
-        'list_executed': [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
-         {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}],
-
-        'list_canceled':[{'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
-         {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}],
-
-        'list_empty_key': [{'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}],
-
-        'empty_list': []
-
+        "name": case_name,
+        "input_data": input_data,
+        "filter_state": filter_state,
+        "expected": expected
     }
