@@ -20,6 +20,7 @@ base_transactions = [
     {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}
 ]
 
+
 @pytest.fixture
 def transactions_with_missing_state():
     """Транзакции, где у одной записи нет ключа 'state'."""
@@ -28,6 +29,7 @@ def transactions_with_missing_state():
         {'id': 2, 'state': 'EXECUTED', 'amount': 200},
         {'id': 3, 'amount': 300},  # нет 'state'
     ]
+
 
 @pytest.fixture
 def exec_only():
@@ -78,7 +80,6 @@ def test_cases(request, exec_only, canceled_only):
         expected = []
     else:
         raise ValueError(f"Неизвестный кейс: {case_name}")
-
 
     return {
         "name": case_name,
