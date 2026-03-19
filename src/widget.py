@@ -1,10 +1,13 @@
 from src import masks
 
 
-def mask_account_card(number: str) -> str:
+def mask_account_card(input_numbers_account: str) -> str:
     """Функия накладывает маску на номер карты или счета в зависимости от длины номера"""
     result = None
-    separate_num = number.split()
+    while not input_numbers_account:
+        print("Поле ввода пустое!\nВведите номер карты или счета.")
+        input_numbers_account = input("В формате <имя счета или карты> <номер карты или счета>: ")
+    separate_num = input_numbers_account.split()
     if len(separate_num[-1]) == 16:
         result = " ".join(separate_num[:-1]) + " " + masks.get_mask_card_number(separate_num[-1])
     else:
@@ -12,8 +15,11 @@ def mask_account_card(number: str) -> str:
     return result
 
 
-def get_date(date: str) -> str:
+def get_date(format_date: str) -> str:
     """Функция переводит дату из одного формата в другой"""
-    separate_date = date.split("T")[0]
+    while not format_date:
+        print("Поле ввода пустое!\nВведите дату.")
+        format_date = input("В формате <2025-01-01T00:00:00.000000>: ")
+    separate_date = format_date.split("T")[0]
     year, month, day = separate_date.split("-")
     return f"{day}.{month}.{year}"
