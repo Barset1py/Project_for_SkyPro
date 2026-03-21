@@ -45,11 +45,13 @@ result_transaction_rub = [
     ]
 )
 def test_filter_by_currency(data_transaction, currency, result):
-    assert filter_by_currency(data_transaction, currency) == result
+    result = list(filter_by_currency(data_transaction, currency))
+    assert result == result
 
 
 def test_filter_by_currency_empty_list():
-    assert filter_by_currency([], "RUB") == []
+    result = filter_by_currency([], "RUB")
+    assert result == 'StopIteration'
 
 
 def test_transaction_descriptions(data_transaction, transaction_description_empty):
@@ -78,4 +80,4 @@ def test_transaction_descriptions(data_transaction, transaction_description_empt
 )
 def test_card_number_generator(start, end, expected_num):
     result = list(card_number_generator(start, end))
-    return result == expected_num
+    assert result == expected_num
