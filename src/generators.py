@@ -8,13 +8,16 @@ def filter_by_currency(transaction: list, currency: str):
         Список транзакций отфильтрованный по указанному коду валюты.
     """
     result = []
-    for item in transaction:
-        operation_user = item.get("operationAmount", {})
-        currency_user = operation_user.get("currency", {})
-        code_currency = currency_user.get("code", {})
-        if code_currency == currency:
-            result.append(item)
-    return result
+    if transaction:
+        for item in transaction:
+            operation_user = item.get("operationAmount", {})
+            currency_user = operation_user.get("currency", {})
+            code_currency = currency_user.get("code", {})
+            if code_currency == currency:
+                result.append(item)
+    else:
+        return 'StopIteration'
+    return iter(result)
 
 
 def transaction_descriptions(transactions: list):
